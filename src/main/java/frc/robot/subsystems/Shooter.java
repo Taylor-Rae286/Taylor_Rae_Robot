@@ -13,11 +13,13 @@ public class Shooter extends SubsystemBase{
     private SimpleMotorFeedforward m_Feedforward = new SimpleMotorFeedforward(ShooterConstants.ks, ShooterConstants.kv);
     private PIDController m_PidController = new PIDController(0.0, 0.0, 0.0);
 
+
     public Shooter(){
+
     }
 
     public void Shoot(Double speed){
-        m_TalonSRX.set(ControlMode.Velocity, speed);
+        m_TalonSRX.set(ControlMode.Velocity, (m_Feedforward.calculate(speed) + m_PidController.calculate(speed)));
     }
 }
 
